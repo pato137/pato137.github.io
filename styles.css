@@ -66,19 +66,12 @@ nav ul li a {
 /* Estilos para las secciones */
 section {
   height: 100vh;
-  /* 100% del viewport height (altura de la ventana del navegador) */
   display: flex;
-  /* Esto ayudará a centrar el contenido verticalmente */
   justify-content: center;
-  /* Centra el contenido horizontalmente */
   align-items: center;
-  /* Centra el contenido verticalmente */
   text-align: center;
-  /* Alinea el texto al centro */
   color: #fff;
-  /* Color de texto blanco para mejor contraste */
   font-size: 24px;
-  /* Tamaño de fuente */
   padding: 0.5rem;
 
 }
