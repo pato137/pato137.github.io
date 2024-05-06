@@ -1,0 +1,129 @@
+/* Estilos para el smooth scrolling */
+html {
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', 'Courier New', Courier, monospace;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/*Nuevo menu fijo*/
+/* Estilo de la barra de navegación */
+#menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333;
+  padding: 10px 0;
+}
+
+#menu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+#menu ul li {
+  display: inline;
+  margin-right: 20px;
+}
+
+#menu ul li a {
+  text-decoration: none;
+  color: #fff;
+}
+
+/*-------------------*/
+/* Estilos para la navegación */
+/* 
+nav {
+  background-color: #f2f2f2;
+  padding: 10px;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 10px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #333;
+} */
+
+/* Estilos para las secciones */
+section {
+  height: 100vh;
+  /* 100% del viewport height (altura de la ventana del navegador) */
+  display: flex;
+  /* Esto ayudará a centrar el contenido verticalmente */
+  justify-content: center;
+  /* Centra el contenido horizontalmente */
+  align-items: center;
+  /* Centra el contenido verticalmente */
+  text-align: center;
+  /* Alinea el texto al centro */
+  color: #fff;
+  /* Color de texto blanco para mejor contraste */
+  font-size: 24px;
+  /* Tamaño de fuente */
+  padding: 0.5rem;
+
+}
+
+/* Estilos adicionales según tus preferencias */
+
+/* Estilos para cada sección */
+#inicio {
+  /* background-color: #3498db;*/
+
+  /* Azul */
+  background-image: url("img/MediumHeader.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  /* position: relative; */
+  flex-direction: column;
+
+}
+
+
+#proyectos {
+
+  background-color: #2ecc71;
+  /* Verde */
+}
+
+#acerca {
+
+  background-color: #e74c3c;
+  /* Rojo */
+
+}
+
+#habilidades {
+
+  background-color: #9b59b6;
+  /* Púrpura */
+
+}
+
+#contacto {
+
+  background-color: #f39c12;
+  /* Naranja */
+
+}
