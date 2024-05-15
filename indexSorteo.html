@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablero Interactivo</title>
+    </head>
+<body>
+    <div class="container">
+        <table id="board" class="board"></table>
+        <div id="ownersList" class="owners-list"></div>
+    </div>
+    <button id="newBoardButton">Generar nuevo tablero</button>
+ 
+    <style>
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2; /* Fondo gris claro */
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.board {
+    border-collapse: collapse;
+    background-color: #fff; /* Fondo blanco */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    margin-right: 20px; /* Espacio a la derecha */
+}
+
+.board td {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #ddd; /* Borde gris claro */
+    text-align: center;
+    position: relative; /* Permitir posicionar el tooltip */
+}
+
+.board td:hover::after {
+    content: attr(data-owner);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.selected {
+    background-color: #ffcccc; /* Color de fondo rojizo */
+}
+
+.owners-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: #fff; /* Fondo blanco */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+.owner {
+    margin-bottom: 10px;
+}
+
+button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    border: none;
+    background-color: #4caf50; /* Verde */
+    color: #fff; /* Texto blanco */
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049; /* Verde oscuro */
+}
+
+.selected {
+    background-color: #ffcccc; /* Color de fondo rojizo */
+}
+
+button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    border: none;
+    background-color: #4caf50; /* Verde */
+    color: #fff; /* Texto blanco */
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049; /* Verde oscuro */
+}
+
+    </style>
+</body>
+<script>
+
+
+const board = document.getElementById("board");
+const ownersList = document.getElementById("ownersList");
+
+function createGrid() {
+    board.innerHTML = "";
+    ownersList.innerHTML=""; // Limpiar el tablero antes de crear uno nuevo
+    const tableBody = document.createElement("tbody");
+    for (let i = 0; i < 10; i++) {
+        const row = document.createElement("tr");
+        for (let j = 0; j < 10; j++) {
+            const cell = document.createElement("td");
+            cell.textContent = (i * 10 + j).toString().padStart(2, '0');
+            cell.dataset.owner = "";
+            cell.dataset.locked = "false"; // Añadir un atributo para marcar si está bloqueada
+            cell.addEventListener("click", () => {
+                if (cell.dataset.locked === "false") {
+                    if (cell.dataset.owner === "" || cell.dataset.owner === localStorage.getItem("owner")) {
+                        cell.classList.toggle("selected");
+                        if (cell.classList.contains("selected")) {
+                            const owner = prompt("Ingrese su nombre:");
+                            if (owner !== null && owner.trim() !== "") {
+                                cell.dataset.owner = owner.trim();
+                                localStorage.setItem("owner", owner.trim());
+                                updateOwnersList(); // Actualizar la lista lateral
+                                // Aquí enviaríamos los datos al backend
+                                console.log(`Número: ${cell.textContent}, Propietario: ${owner}`);
+                            } else {
+                                cell.classList.remove("selected");
+                            }
+                        } else {
+                            cell.dataset.owner = "";
+                            localStorage.removeItem("owner");
+                            updateOwnersList(); // Actualizar la lista lateral
+                        }
+                    } else {
+                        alert("Esta celda está bloqueada por otro propietario.");
+                    }
+                } else {
+                    alert("Esta celda está bloqueada.");
+                }
+            });
+            row.appendChild(cell);
+        }
+        tableBody.appendChild(row);
+    }
+    board.appendChild(tableBody);
+}
+
+createGrid();
+
+// Función para desbloquear todas las celdas
+function unlockCells() {
+    const cells = document.querySelectorAll("td");
+    cells.forEach(cell => {
+        cell.classList.remove("selected");
+        cell.dataset.owner = "";
+        cell.dataset.locked = "false";
+        localStorage.removeItem("owner");
+    });
+}
+
+// Evento para generar un nuevo tablero
+const newBoardButton = document.getElementById("newBoardButton");
+newBoardButton.addEventListener("click", () => {
+    unlockCells();
+    createGrid();
+});
+
+// Función para mostrar la lista de propietarios
+function updateOwnersList() {
+    ownersList.innerHTML = "";
+    const cells = document.querySelectorAll("td");
+    const owners = new Map();
+    cells.forEach(cell => {
+        if (cell.dataset.owner !== "") {
+            const owner = cell.dataset.owner;
+            const number = cell.textContent;
+            if (!owners.has(owner)) {
+                owners.set(owner, []);
+            }
+            owners.get(owner).push(number);
+        }
+    });
+
+    owners.forEach((numbers, owner) => {
+        const ownerElement = document.createElement("div");
+        ownerElement.classList.add("owner");
+        ownerElement.textContent = `${owner}: ${numbers.join(", ")}`;
+        ownersList.appendChild(ownerElement);
+    });
+}
+
+</script>
+</html>
