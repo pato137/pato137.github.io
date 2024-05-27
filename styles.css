@@ -97,12 +97,14 @@ section {
 #proyectos {
 
   background-color: #2ecc71;
+  background-color: #212121;
   /* Verde */
 }
 
 #acerca {
 
   background-color: #e74c3c;
+  background-color: #000;
   /* Rojo */
 
 }
@@ -110,6 +112,7 @@ section {
 #habilidades {
 
   background-color: #9b59b6;
+  background-color: #212121;
   /* Púrpura */
 
 }
@@ -117,6 +120,7 @@ section {
 #contacto {
 
   background-color: #f39c12;
+  background-color: #212121;
   /* Naranja */
 
 }
